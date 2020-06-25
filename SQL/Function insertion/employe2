@@ -1,0 +1,70 @@
+Create or replace function InsertEmploye(
+    v_login employe_2.login%TYPE,
+    v_password employe_2.password%TYPE,
+    v_adresse employe_2.adresse%TYPE,
+    v_nom employe_2.nom%TYPE,
+    v_statut employe_2.statut%TYPE
+) RETURN  number IS
+    login_exception exception ;
+    v_count number;
+BEGIN
+select count(*)  into v_count from employe_2 where login=v_login;
+if(v_count=0) then
+        INSERT INTO employe_2 VALUES
+(SEQ_EMPLOYE.nextval, v_login ,v_password ,v_adresse ,v_nom,v_statut );
+        return 1;
+
+        else  raise login_exception;
+END IF;
+EXCEPTION
+    WHEN login_exception THEN
+        return -1;
+    WHEN OTHERS THEN
+        return -2;
+END;
+
+drop function  InsertEmploye;
+-------------------------------------------
+CREATE OR REPLACE
+    PROCEDURE getAllEmp (
+    employees OUT sys_refcursor
+) AS
+
+begin
+    OPEN employees FOR SELECT * FROM employe_2 ;
+end;
+--------------------------------------------------
+Create or replace function deleteEmploye(
+    v_login employe_2.login%TYPE
+
+) RETURN  number IS
+
+BEGIN
+   delete from employe_2 where LOGIN=v_login;
+   return 1;
+EXCEPTION
+
+    WHEN OTHERS THEN
+        return -2;
+END;
+
+-----------------------------
+CREATE OR REPLACE function updateEmploye(
+    v_login employe_2.login%TYPE,
+    v_password employe_2.password%TYPE,
+    v_adresse employe_2.adresse%TYPE,
+    v_nom employe_2.nom%TYPE,
+    v_statut employe_2.statut%TYPE
+	   )
+ return number IS
+v_id number;
+BEGIN
+  UPDATE employe_2 SET nom = v_nom,ADRESSE = v_adresse,statut = v_statut,PASSWORD=v_password where login =v_login;
+  COMMIT;
+  return 1;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        return -2;
+END;
+/

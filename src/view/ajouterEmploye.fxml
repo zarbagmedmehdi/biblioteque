@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="551.0" prefWidth="1291.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AjouterEmployeController">
+    <children>
+        <fx:include fx:id="sideBar" source="sideBar.fxml" />
+
+        <ImageView fitHeight="562.0" fitWidth="1038.0" layoutX="254.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true" styleClass="buttons">
+
+            <Image url="@../image/first.png" />
+
+        </ImageView>
+        <AnchorPane layoutY="464.0" prefHeight="90.0" prefWidth="254.0" styleClass="background" />
+        <Label fx:id="label" layoutX="954.0" layoutY="125.0" textFill="WHITE">
+            <font>
+                <Font size="45.0" />
+            </font>
+        </Label>
+      <TabPane fx:id="tabPane" layoutX="270.0" layoutY="13.0" prefHeight="514.0" prefWidth="1013.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="ajouter" text="Ajouter">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                          <AnchorPane layoutX="39.0" layoutY="-9.0" prefHeight="534.0" prefWidth="934.0">
+                              <children>
+                                  <TextField fx:id="loginField" layoutX="389.0" layoutY="52.0" prefHeight="42.0" prefWidth="292.0" />
+                                  <Label layoutX="289.0" layoutY="57.0" text="Login :" textFill="WHITE">
+                                      <font>
+                                          <Font size="20.0" />
+                                      </font>
+                                  </Label>
+                                  <Button fx:id="enregister" layoutX="364.0" layoutY="399.0" mnemonicParsing="false" onAction="#enregister" prefHeight="30.0" prefWidth="282.0" styleClass="buttons" text="Enregistrer " />
+                              <TextField fx:id="nomField" layoutX="389.0" layoutY="132.0" prefHeight="42.0" prefWidth="292.0" />
+                              <Label layoutX="291.0" layoutY="137.0" text="Nom :" textFill="WHITE">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="statutField" layoutX="388.0" layoutY="224.0" prefHeight="42.0" prefWidth="292.0" />
+                              <Label layoutX="286.0" layoutY="229.0" text="Statut : " textFill="WHITE">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="adresseField" layoutX="387.0" layoutY="306.0" prefHeight="49.0" prefWidth="292.0" />
+                              <Label layoutX="278.0" layoutY="315.0" text="Adresse :" textFill="WHITE">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <ProgressIndicator fx:id="progress" layoutX="786.0" layoutY="186.0" prefHeight="90.0" prefWidth="68.0" progress="0.0" />
+                                <Label layoutX="22.0" layoutY="12.0" text="Ajouter Employé :" textFill="WHITE">
+                                    <font>
+                                        <Font size="27.0" />
+                                    </font>
+                                </Label>
+                              </children>
+                          </AnchorPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="lister" text="Lister">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="empTable" layoutX="174.0" layoutY="71.0" prefHeight="331.0" prefWidth="600.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                        <Label layoutX="90.0" layoutY="16.0" text="liste des Employés :" textFill="WHITE">
+                           <font>
+                              <Font size="27.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="modifier" layoutX="787.0" layoutY="102.0" mnemonicParsing="false" onAction="#modifier" prefHeight="42.0" prefWidth="174.0" styleClass="buttons" text="Modifier" />
+                        <Button fx:id="supprimer" layoutX="787.0" layoutY="194.0" mnemonicParsing="false" onAction="#supprimer" prefHeight="42.0" prefWidth="174.0" styleClass="buttons" text="Supprimer" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+    </children>
+</AnchorPane>
