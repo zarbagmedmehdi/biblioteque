@@ -11,7 +11,7 @@ BEGIN
 END;
 /
 
---trigger pour synchroniser la duplication de la table etudiant au niveau de la modification
+--          trigger pour synchroniser la duplication de la table etudiant au niveau de la modification
 CREATE OR REPLACE TRIGGER prop_req_etudiant
     BEFORE UPDATE ON etudiant_emprunt
     FOR EACH ROW
