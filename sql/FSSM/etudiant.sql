@@ -18,6 +18,8 @@ CREATE OR REPLACE TRIGGER prop_req_etudiant
 BEGIN
     IF UPDATING THEN
         IF :NEW.jeton = 0 THEN
+            DBMS_OUTPUT.PUT_LINE('Modification etudiant_emprunt 1 aussi');
+
             UPDATE etudiant_emprunt@FST1 SET cne=:NEW.cne, nb_emprunts=:NEW.nb_emprunts, sanctione=:NEW.sanctione, jeton=1 WHERE id_etu=:NEW.id_etu;
         END IF;
     END IF;

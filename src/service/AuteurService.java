@@ -86,7 +86,7 @@ public class AuteurService {
         }
         finally {
             try {
-                Connexion.close();
+                DbHelper.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

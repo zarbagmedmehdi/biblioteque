@@ -178,10 +178,11 @@ if(Sessions.getAttribut("tab")!=null) {tabPane.getSelectionModel().select(1);
             }
     }
     public void rechercher(ActionEvent actionEvent) throws SQLException, MessagingException {
+        if(cursusCombo1.getValue()!=null)
+        populateetudTable(1, cneField1.getText(), cursusCombo1.getValue().toString());
+        else
+            populateetudTable(1, cneField1.getText(), "");
 
-        populateetudTable(1,
-               cneField1.getText(),
-                cursusCombo1.getValue().toString());
 
     }
     public void tout(ActionEvent actionEvent) throws SQLException, MessagingException {

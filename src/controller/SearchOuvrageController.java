@@ -2,6 +2,7 @@ package controller;
 
 import bean.Auteur;
 import bean.Ouvrage;
+import interfaces.DataSender;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class SearchOuvrageController implements Initializable {
+public class SearchOuvrageController implements Initializable, DataSender {
     @FXML
     private TableView<Ouvrage> table_ouvrage = new TableView<>();
     @FXML
@@ -68,18 +69,26 @@ public class SearchOuvrageController implements Initializable {
     }
 
     public void preterOuvrage(ActionEvent actionEvent) {
+        if(table_ouvrage.getSelectionModel().getSelectedItem()!=null){
         try {
             Ouvrage ouvrage = table_ouvrage.getSelectionModel().getSelectedItem();
-            table_ouvrage.setItems(null);
-            open(actionEvent, "../view/preterOuvrage.fxml", this.getClass(), ouvrage, "PreterOuvrageController");
+            if(ouvrage.getStock()>0){
+                table_ouvrage.setItems(null);
+                open(actionEvent, "../view/preterOuvrage.fxml", this.getClass(), ouvrage, "PreterOuvrageController");
+            }else {
+                AlertUtil.showAlert(Alert.AlertType.WARNING, "Attention", "prêt d'ouvrage", "Aucun exemplaire de cet ouvrage n'est disponible dans la bibliotheque");
+            }
+
         } catch (NullPointerException | IOException e) {
             e.printStackTrace();
             AlertUtil.showAlert(Alert.AlertType.WARNING, "Attention", "prêt d'ouvrage", "Veuillez selectionner un ouvrage à prêter");
         }
+        }
+        else AlertUtil.showAlert("Erreur","Choisi un ouvrage", Alert.AlertType.WARNING);
     }
 
 
-    public static void open(ActionEvent actionEvent, String pageName, Class myClass, Ouvrage ouvrage, String controller) throws IOException {
+    public void open(ActionEvent actionEvent, String pageName, Class myClass, Ouvrage ouvrage, String controller) throws IOException {
         FXMLLoader loader = new FXMLLoader(myClass.getResource(pageName));
         Parent parent = (Parent) loader.load();
         if (controller.equals("PreterOuvrageController")) {
@@ -87,6 +96,7 @@ public class SearchOuvrageController implements Initializable {
             preterOuvrageController.initOuvrageFields(ouvrage);
         } else if (controller.equals("UpdateOuvrageController")) {
             UpdateOuvrageController updateOuvrageController = loader.getController();
+            updateOuvrageController.setDataSender(this);
             updateOuvrageController.initOuvrageFields(ouvrage);
         } else {
             AlertUtil.showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur", "Action non autorisée.");
@@ -129,11 +139,17 @@ public class SearchOuvrageController implements Initializable {
                 AlertUtil.showAlert(Alert.AlertType.ERROR, "Erreur", "Suppression d'ouvrage", "Veuillez selectionner l'ouvrage à supprimer.");
             }else {
                 open(actionEvent, "../view/modifierOuvrage.fxml", this.getClass(), ouvrage, "UpdateOuvrageController");
-
             }
         } catch (NullPointerException | IOException e) {
             e.printStackTrace();
             AlertUtil.showAlert(Alert.AlertType.WARNING, "Attention", "Modification d'ouvrage", "Veuillez selectionner un ouvrage pour modifier son stock.");
         }
+    }
+
+    @Override
+    public void send(Ouvrage ouvrage, int newStock) {
+        table_ouvrage.getItems().remove(ouvrage);
+        ouvrage.setStock(newStock);
+        table_ouvrage.getItems().add(ouvrage);
     }
 }

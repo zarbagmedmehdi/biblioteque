@@ -17,9 +17,12 @@ import java.util.List;
 
 public class PretService {
     public int preter(Pret pret) {
+        System.out.println("etu:"+pret.getEtudiant().getId_etu());
+        System.out.println("ouv:"+pret.getOuvrage().getId_ouv());
+        System.out.println("peso:"+pret.getEmploye().getId_pers());
         int res=0;
         CallableStatement cs;
-        Connection connection = DbHelper.GetConnection();;
+        Connection connection = DbHelper.GetConnection();
         String query="begin ? := preterOuvrage(?,?,?,?,?); end;";
         try {
             cs= connection.prepareCall(query);
@@ -73,7 +76,7 @@ public class PretService {
         }
         finally {
             try {
-                Connexion.close();
+                DbHelper.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -98,7 +101,7 @@ public class PretService {
         }
         finally {
             try {
-                Connexion.close();
+                DbHelper.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

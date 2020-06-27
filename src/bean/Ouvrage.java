@@ -1,5 +1,7 @@
 package bean;
 
+import java.util.Objects;
+
 public class Ouvrage {
     private long id_ouv;
     private String titre;
@@ -125,6 +127,19 @@ public class Ouvrage {
 
     public void setAuteur(Auteur auteur) {
         this.auteur = auteur;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ouvrage ouvrage = (Ouvrage) o;
+        return id_ouv == ouvrage.id_ouv;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id_ouv);
     }
 
     @Override

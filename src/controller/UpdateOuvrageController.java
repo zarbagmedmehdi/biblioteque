@@ -1,6 +1,7 @@
 package controller;
 
 import bean.Ouvrage;
+import interfaces.DataSender;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,6 +28,7 @@ public class UpdateOuvrageController implements Initializable {
     private Spinner <Integer> newStock;
 
     private OuvrageService ouvrageService=new OuvrageService();
+    private DataSender dataSender;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -38,18 +40,19 @@ public class UpdateOuvrageController implements Initializable {
         titre.setText(ouvrage.getTitre());
         oldStock.setText(String.valueOf(ouvrage.getStock()));
         Object o=newStock;
-         o=newStock.getValueFactory();
-         o=ouvrage.getStock();
-         newStock.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,999,ouvrage.getStock()));
+        o=newStock.getValueFactory();
+        o=ouvrage.getStock();
+        newStock.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,999,ouvrage.getStock()));
         //newStock.getValueFactory().setValue(ouvrage.getStock());
 
     }
 
     public void modifier(ActionEvent actionEvent) {
+        int vStock;
         if (newStock.getValue()==null || !Util.validateInteger(String.valueOf(newStock.getValue()))){
             AlertUtil.showAlert(Alert.AlertType.ERROR, "Erreur", "Modification de stock", "Veuillez dpnner un nombre d'exemplaire valide.");
         }else {
-            int vStock=newStock.getValue();
+            vStock=newStock.getValue();
             String msg="Voulez-vous modifier le stock de l'ouvrage << "+ouvrage.getTitre()+" >> de "+ ouvrage.getStock()+ " à "+vStock+" ?";
             Alert alert=AlertUtil.getConfirmationDialog("Modification du stock",msg);
             alert.showAndWait();
@@ -58,11 +61,16 @@ public class UpdateOuvrageController implements Initializable {
                 switch (result) {
                     case 1:
                         AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Succès", "modification  d'ouvrage", "Le stocj de l'ouvrage a été modifié");
+                        dataSender.send(ouvrage,vStock);
                         ((Stage)ap.getScene().getWindow()).close();
                         break;
                     default:
                 }
             }
         }
+    }
+
+    public void setDataSender(DataSender dataSender) {
+        this.dataSender = dataSender;
     }
 }

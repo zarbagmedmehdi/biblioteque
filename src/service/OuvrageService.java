@@ -29,7 +29,7 @@ public class OuvrageService {
             cs.setInt(3, ouvrage.getAnnee());
             cs.setString(4, ouvrage.getDomaine());
             cs.setInt(5, ouvrage.getStock());
-            if((Integer)Sessions.getAttribut("v1")==1){
+            if((Integer)Sessions.getAttribut("v1")==2){
                 cs.setString(6,"FST");
             }
             else  cs.setString(6,"FSSM");

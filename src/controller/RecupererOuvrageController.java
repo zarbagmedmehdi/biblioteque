@@ -100,6 +100,8 @@ public class RecupererOuvrageController implements Initializable {
                     AlertUtil.showAlert(Alert.AlertType.ERROR, "Erreur", "Récuperation d'ouvrage", "L'ouvrage relatif à ce prêt a été déjà rendu");
                     break;
                 case 1: AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Succès", "Récuperation d'ouvrage", "L'ouvrage a bien été recuperé.");
+                etudiant_table.setItems(null);
+                    pret_table.setItems(null);
                 initTablePret();
                 initTableEtudiant();
                     break;

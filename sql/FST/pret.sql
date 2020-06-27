@@ -1,4 +1,3 @@
---fonction pour preter un ouvrage a un etudiant
 CREATE OR REPLACE FUNCTION preterOuvrage(p_date_emprunt DATE, p_date_retour_limite DATE, p_id_etu NUMBER, p_id_ouv NUMBER, p_id_emp NUMBER)
     RETURN NUMBER
     IS
@@ -6,10 +5,15 @@ CREATE OR REPLACE FUNCTION preterOuvrage(p_date_emprunt DATE, p_date_retour_limi
     v_nb_emprunt NUMBER:=0;
     v_stock NUMBER:=0;
     res NUMBER:=0;
+    v_count NUMBER:=0;
+
 BEGIN
+    SELECT COUNT(*) INTO v_count FROM pret_1 WHERE id_etu=p_id_etu AND id_ouv=p_id_ouv AND date_retour IS NULL;
     SELECT nb_emprunts, sanctione INTO v_nb_emprunt, v_sanction FROM etudiants WHERE id_etu=p_id_etu;
     IF v_sanction <> 0 THEN
         res := -1;
+    ELSIF v_count >0 THEN
+        res := -4;
     ELSIF v_nb_emprunt >= 3 THEN
         res := -2;
     ELSE
@@ -20,7 +24,8 @@ BEGIN
             INSERT INTO PRET_1 (id_pret, date_empreunt, date_retour, date_retour_limite, id_etu, id_ouv, id_pers)
             VALUES (seq_pret.nextval, p_date_emprunt, null, p_date_retour_limite, p_id_etu, p_id_ouv, p_id_emp);
             UPDATE OUVRAGE_1 SET stock = stock-1 WHERE id_ouv=p_id_ouv;
-            UPDATE ETUDIANT_EMPRUNT SET nb_emprunts = nb_emprunts+1 WHERE id_etu = p_id_etu;
+            UPDATE ETUDIANT_EMPRUNT SET nb_emprunts = nb_emprunts+1 ,jeton=0 WHERE id_etu = p_id_etu;
+            commit;
             res := 1;
         END IF;
     END IF;
@@ -55,8 +60,9 @@ BEGIN
         res:=-1;
     ELSE
         UPDATE pret_1 SET date_retour= SYSDATE WHERE id_pret=p_id_pret;
-        UPDATE etudiant_emprunt SET nb_emprunts = nb_emprunts-1 WHERE id_etu=v_id_etu;
+        UPDATE etudiant_emprunt SET nb_emprunts = nb_emprunts-1,jeton=0 WHERE id_etu=v_id_etu;
         UPDATE ouvrage_1 SET stock = stock+1 WHERE id_ouv=v_id_ouv;
+        commit;
         res:=1;
     END IF;
     RETURN res;
