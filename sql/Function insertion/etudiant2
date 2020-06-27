@@ -1,0 +1,127 @@
+Create or replace function InsertEtudiant(
+    v_nom etudiant_info_2.nom%TYPE,
+    v_adresse etudiant_info_2.adresse%TYPE,
+    v_cursus etudiant_info_2.cursus%TYPE,
+    v_cne etudiant_emprunt.cne%TYPE
+
+) RETURN  number IS
+err_code varchar2(30);
+err_msg varchar2(200);
+
+    cne_exception exception ;
+    v_count number;
+    v_id etudiant_emprunt.ID_ETU%TYPE;
+BEGIN
+select count(*)  into v_count from etudiant_emprunt where cne=v_cne;
+if(v_count=0) then
+select seq_etudiant.nextval into v_id  FROM dual;
+        INSERT INTO etudiant_info_2 VALUES (v_id,v_nom ,v_adresse ,v_cursus  );
+        INSERT INTO etudiant_emprunt VALUES (v_id,v_cne ,0 ,0,0  );
+        return 1;
+
+        else  raise cne_exception;
+END IF;
+EXCEPTION
+    WHEN cne_exception THEN
+        return -1;
+    WHEN OTHERS THEN
+     err_code := SQLCODE;
+      err_msg := SUBSTR(SQLERRM, 1, 200);
+            INSERT INTO erreurTable VALUES ( seq_erreurTable.nextval,
+            'An error was encountered - '||err_code||' -ERROR- '||err_msg
+             ,'InsertEtudiant');
+        return -2;
+END;
+
+---------------------------------------------
+Create or replace function deleteEtudiant(
+ v_cne etudiant_emprunt.cne%TYPE
+) RETURN  number IS
+    pret_exception exception ;
+    cne_exception exception ;
+    v_c number;
+    v_id etudiant_emprunt.ID_ETU%TYPE;
+    v_count number;
+BEGIN
+select count(*)  into v_c from etudiant_emprunt  where cne=v_cne;
+if(v_c=0) then
+raise cne_exception;
+END IF;
+
+select count(*)  into v_count from pret_1 p1, pret_2 p2,etudiant_emprunt e
+where e.ID_ETU=p1.ID_ETU and  e.ID_ETU=p1.ID_ETU and e.CNE=v_cne;
+if(v_count=0) then
+select ID_ETU into v_id from SYSTEM.ETUDIANT_EMPRUNT where cne=v_cne;
+   delete from SYSTEM.ETUDIANT_EMPRUNT where ID_ETU=v_id;
+   delete from SYSTEM.etudiant_info_2 where ID_ETU=v_id;
+commit;
+        return 1;
+
+        else  raise pret_exception;
+END IF;
+   return 1;
+EXCEPTION
+WHEN cne_exception THEN
+        return -1;
+ WHEN pret_exception THEN
+        return -2;
+    WHEN OTHERS THEN
+        return -3;
+END;
+---------------------------
+CREATE OR REPLACE
+    PROCEDURE getEtudiantByCriteria (
+    etudiants OUT sys_refcursor,
+    result out number,
+    v_cne SYSTEM.ETUDIANT_EMPRUNT.cne%type,
+    v_cursus SYSTEM.etudiant_info_2.cursus%type
+
+) AS
+v number:=0;
+begin
+ IF (v_cne is NULL and v_cursus is NULL) THEN
+ v:=1;
+OPEN etudiants FOR SELECT * FROM etudiant;
+elsif  (v_cne is  not NULL and v_cursus is not null) THEN
+ v:=2;
+OPEN etudiants FOR SELECT * FROM etudiant where cne=v_cne and CURSUS=v_cursus;
+elsif  (v_cne is NULL and v_cursus is not NULL) THEN
+v:=3;
+OPEN etudiants FOR SELECT * FROM etudiant where  CURSUS=v_cursus;
+elsif  (v_cne is  not NULL and v_cursus is NULL) THEN
+v:=4;
+    OPEN etudiants FOR SELECT * FROM etudiant where  cne=v_cne;
+end if;
+result:=v;
+dbms_output.put_line(v);
+end;
+
+------------------------------------------
+CREATE OR REPLACE function updateEtudiant(
+       v_nom  SYSTEM.etudiant_info_2.nom%TYPE,
+	   v_adresse  SYSTEM.etudiant_info_2.adresse%TYPE,
+	   v_cursus  SYSTEM.etudiant_info_2.cursus%TYPE,
+	    v_cne  SYSTEM.Etudiant_emprunt.cne%TYPE
+	   )
+ return number IS
+v_id number;
+BEGIN
+select ID_ETU into v_id from SYSTEM.ETUDIANT_EMPRUNT where cne=v_cne;
+  UPDATE etudiant_info_2 SET nom = v_nom,ADRESSE = v_adresse,CURSUS = v_cursus where ID_ETU =v_id;
+  COMMIT;
+  return 1;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        return -2;
+END;
+/
+
+create PROCEDURE getAllEtudiant (
+    etudiants OUT sys_refcursor
+) AS
+
+begin
+    OPEN etudiants FOR SELECT * FROM etudiant ;
+end;
+/

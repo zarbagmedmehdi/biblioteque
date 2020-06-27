@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="fontawesomefx-8.9">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../fontawesomefx-8.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../ojdbc8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../javax.mail-1.6.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

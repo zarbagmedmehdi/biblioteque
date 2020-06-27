@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="551.0" prefWidth="1291.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RecupererOuvrageController">
+   <children>
+      <fx:include fx:id="sideBar" source="sideBar.fxml" />
+
+      <ImageView fitHeight="562.0" fitWidth="1038.0" layoutX="254.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true" styleClass="buttons">
+
+         <Image url="@image/second.png" />
+
+      </ImageView>
+      <AnchorPane layoutY="464.0" prefHeight="90.0" prefWidth="254.0" styleClass="background" />
+
+      <Label fx:id="label" layoutX="954.0" layoutY="125.0" textFill="WHITE">
+         <font>
+            <Font size="45.0" />
+         </font>
+      </Label>
+      <Label layoutX="290.0" layoutY="39.0" text="Récuperer un ouvrage" textFill="WHITE">
+         <font>
+            <Font size="45.0" />
+         </font>
+      </Label>
+      <TextField fx:id="cne" layoutX="363.0" layoutY="132.0" prefHeight="41.0" prefWidth="212.0" promptText="CNE de l'etudiant . . . " />
+      <Label layoutX="315.0" layoutY="137.0" text="CNE: " textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Button layoutX="590.0" layoutY="131.0" mnemonicParsing="false" onAction="#rechercherEtudiant" prefHeight="42.0" prefWidth="117.0" styleClass="buttons" text="Rechercher" />
+      <Label layoutX="736.0" layoutY="153.0" prefHeight="41.0" prefWidth="484.0" text="Veuillez selectionner un prêt, afin de récuperer l'ouvrage" textFill="WHITE" wrapText="true">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Button layoutX="728.0" layoutY="422.0" mnemonicParsing="false" onAction="#recuperer" prefHeight="42.0" prefWidth="146.0" styleClass="buttons" text="Récuperer" />
+      <TableView fx:id="etudiant_table" layoutX="261.0" layoutY="193.0" prefHeight="210.0" prefWidth="446.0">
+        <columns>
+          <TableColumn fx:id="col_cne" prefWidth="90.0" text="CNE" />
+          <TableColumn fx:id="col_nom" prefWidth="157.0" text="nom" />
+            <TableColumn fx:id="col_universite" prefWidth="65.0" text="université" />
+            <TableColumn fx:id="col_emprunt" prefWidth="59.0" text="emprunts" />
+            <TableColumn fx:id="col_sanction" prefWidth="72.0" text="sanctionné?" />
+        </columns>
+      </TableView>
+      <TableView fx:id="pret_table" layoutX="728.0" layoutY="193.0" prefHeight="210.0" prefWidth="533.0">
+        <columns>
+          <TableColumn fx:id="col_titre" prefWidth="187.0" text="titre d'ouvrage" />
+          <TableColumn fx:id="col_date_emprunt" prefWidth="109.0" text="emprunté le" />
+            <TableColumn fx:id="col_date_retour" prefWidth="111.0" text="rendu le" />
+            <TableColumn fx:id="col_date_limite" prefWidth="125.0" text="date limite" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

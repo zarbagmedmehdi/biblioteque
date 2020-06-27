@@ -1,0 +1,36 @@
+CREATE OR REPLACE
+    PROCEDURE getPretsEmploye (
+    v_cur OUT sys_refcursor,
+     v_login  employe_1.login%TYPE
+) AS
+
+begin
+    OPEN v_cur FOR SELECT ee.cne ,o.titre,
+     p. DATE_EMPREUNT,p. DATE_RETOUR, p.DATE_RETOUR_LIMITE
+     FROM employe_1 e,
+     pret_1 p,
+     etudiant_emprunt ee,
+     ouvrage_1 o
+      where e.id_pers= p.id_pers
+     and ee.id_etu=p.id_etu   and o.id_ouv=p.id_ouv and e.login=v_login
+     ;
+end;
+
+-------------------------------- SITE 2
+CREATE OR REPLACE
+    PROCEDURE getPretsEmploye (
+    v_cur OUT sys_refcursor,
+     v_login  employe_2.login%TYPE
+) AS
+
+begin
+    OPEN v_cur FOR SELECT ee.cne ,o.titre,
+     p. DATE_EMPREUNT,p. DATE_RETOUR, p.DATE_RETOUR_LIMITE
+     FROM employe_2 e,
+     pret_2 p,
+     etudiant_emprunt ee,
+     ouvrage_2 o
+      where e.id_pers= p.id_pers
+     and ee.id_etu=p.id_etu   and o.id_ouv=p.id_ouv and e.login=v_login
+     ;
+end;

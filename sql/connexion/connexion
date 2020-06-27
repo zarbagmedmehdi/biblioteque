@@ -1,0 +1,40 @@
+CREATE OR REPLACE
+    FUNCTION getEmployeId (
+    v_login SYSTEM.EMPLOYE_1.login%type,
+    v_password SYSTEM.EMPLOYE_1.password%type
+
+) return  number
+AS
+    v number:=0;
+begin
+    select count(*) into v from EMPLOYE_1 where login=v_login and password=v_password;
+    IF (v=0) THEN
+      return v;
+
+    else
+    select id_pers into v from EMPLOYE_1 where login=v_login and password=v_password;
+    return v;
+    end if;
+
+end;
+
+
+CREATE OR REPLACE
+    FUNCTION getEmployeId (
+    v_login SYSTEM.EMPLOYE_2.login%type,
+    v_password SYSTEM.EMPLOYE_2.password%type
+
+) return  number
+AS
+    v number:=0;
+begin
+    select count(*) into v from EMPLOYE_2 where login=v_login and password=v_password;
+    IF (v=0) THEN
+        return v;
+
+    else
+        select id_pers into v from EMPLOYE_2 where login=v_login and password=v_password;
+        return v;
+    end if;
+
+end;

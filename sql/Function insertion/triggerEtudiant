@@ -1,0 +1,60 @@
+CREATE OR REPLACE TRIGGER  replicate
+    BEFORE UPDATE OR INSERT OR DELETE ON etudiant_emprunt
+      FOR EACH ROW
+      BEGIN
+        IF INSERTING THEN
+        if(:new.JETON=0) then
+
+          insert into etudiant_emprunt_2 VALUES
+           (:new.ID_ETU ,:new.CNE ,:new.NB_EMPRUNTS,:new.SANCTIONE,1 );
+        END IF;
+        END IF;
+          IF DELETING THEN
+            if(:old.JETON=0) then
+                DBMS_OUTPUT.PUT_LINE('deleting from etudiant_emprunt_2 ');
+                delete from  etudiant_emprunt_2 where ID_ETU=:old.ID_ETU ;
+            END IF;
+            END IF;
+
+
+
+
+      EXCEPTION
+  WHEN  TIMEOUT_ON_RESOURCE THEN
+       dbms_output.put_line('instance pas disponible');
+   WHEN  DUP_VAL_ON_INDEX THEN
+      dbms_output.put_line('clé primaire dupliquée');
+   WHEN OTHERS THEN
+      dbms_output.put_line('autre erreur.');
+      END;
+/
+
+-------------SITE2
+CREATE OR REPLACE TRIGGER  replicate
+    BEFORE UPDATE OR INSERT OR DELETE ON etudiant_emprunt
+    FOR EACH ROW
+BEGIN
+    IF INSERTING THEN
+        if(:new.JETON=0) then
+            insert into etudiant_emprunt_1 VALUES
+            (:new.ID_ETU ,:new.CNE ,:new.NB_EMPRUNTS,:new.SANCTIONE,1 );
+        END IF;
+    END IF;
+    IF DELETING THEN
+        if(:old.JETON=0) then
+            DBMS_OUTPUT.PUT_LINE('deleting from etudiant_emprunt_1 ');
+            delete from  etudiant_emprunt_1 where ID_ETU=:old.ID_ETU ;
+        END IF;
+    END IF;
+
+
+EXCEPTION
+  WHEN  TIMEOUT_ON_RESOURCE THEN
+       dbms_output.put_line('instance pas disponible');
+   WHEN  DUP_VAL_ON_INDEX THEN
+      dbms_output.put_line('clé primaire dupliquée');
+   WHEN OTHERS THEN
+      dbms_output.put_line('autre erreur.');
+      END;
+/
+

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="s" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="806.0" prefWidth="1511.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StudentListOuvrageController">
+   <children>
+      <AnchorPane layoutY="464.0" prefHeight="90.0" prefWidth="254.0" styleClass="background" />
+      <Label fx:id="label" layoutX="954.0" layoutY="125.0" textFill="WHITE">
+         <font>
+            <Font size="45.0" />
+         </font>
+      </Label>
+      <Label layoutX="450.0" layoutY="28.0" text="Liste des ouvrages" textFill="WHITE">
+         <font>
+            <Font size="45.0" />
+         </font>
+      </Label>
+      <TableView fx:id="table_ouvrage" layoutX="187.0" layoutY="278.0" prefHeight="483.0" prefWidth="1069.0">
+        <columns>
+          <TableColumn fx:id="col_titre" prefWidth="314.0" text="Titre" />
+          <TableColumn fx:id="col_editeur" minWidth="0.0" prefWidth="189.0" text="Editeur" />
+            <TableColumn fx:id="col_annee" prefWidth="45.0" text="Année" />
+            <TableColumn fx:id="col_domaine" prefWidth="190.0" text="Domaine" />
+            <TableColumn fx:id="col_stock" prefWidth="43.0" text="Stock" />
+            <TableColumn fx:id="col_Auteur" prefWidth="203.0" text="Auteur" />
+            <TableColumn fx:id="col_emplacement" prefWidth="84.0" text="Emplacement" />
+        </columns>
+      </TableView>
+      <TextField fx:id="titre" layoutX="314.0" layoutY="140.0" prefHeight="41.0" prefWidth="212.0" promptText="Le titre d'ouvrage . . ." />
+      <Label layoutX="187.0" layoutY="146.0" text="Titre: " textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Button layoutX="1010.0" layoutY="200.0" mnemonicParsing="false" onAction="#rechercherOuvrage" prefHeight="42.0" prefWidth="117.0" styleClass="buttons" text="Rechercher" />
+      <ComboBox fx:id="auteur" layoutX="314.0" layoutY="200.0" prefHeight="41.0" prefWidth="212.0" promptText="--SELECT--" />
+      <Label layoutX="187.0" layoutY="206.0" text="Auteur: " textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="domaine" layoutX="698.0" layoutY="140.0" prefHeight="41.0" prefWidth="212.0" promptText="Le domaine d'ouvrage . . ." />
+      <Label layoutX="571.0" layoutY="146.0" text="Domaine: " textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="emplacement" layoutX="698.0" layoutY="200.0" prefHeight="41.0" prefWidth="212.0" promptText="--SELECT--" />
+      <Label layoutX="571.0" layoutY="206.0" text="Emplacement: " textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
